@@ -129,7 +129,7 @@ class AboutMethods(Koan):
         return "ok"
 
     def test_the_documentation_can_be_viewed_with_the_doc_method(self):
-        self.assertMatch(__, self.method_with_documentation.__doc__)
+        self.assertMatch("A string placed at the beginning of a function is used for documentation", self.method_with_documentation.__doc__)
 
     # ------------------------------------------------------------------
 
@@ -162,7 +162,7 @@ class AboutMethods(Koan):
             #This may not be possible...
             password = rover.__password()
         except Exception as ex:
-            self.assertEqual("AssertionError", ex.__class__.__name__)
+            self.assertEqual("AttributeError", ex.__class__.__name__)
 
         # But this still is!
         self.assertEqual('password', rover._Dog__password())
