@@ -73,7 +73,7 @@ class AboutControlStatements(Koan):
             result.append("Contestant: '" + knight + \
             "'   Answer: '" + answer + "'")
 
-        text = __
+        text = "Contestant: 'Robin'   Answer: 'Blue! I mean Green!'"
 
         self.assertMatch(text, result[2])
 
