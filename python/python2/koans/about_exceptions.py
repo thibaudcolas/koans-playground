@@ -53,7 +53,7 @@ class AboutExceptions(Koan):
         else:
             result = 'no damage done'
 
-        self.assertEqual(__, result)
+        self.assertEqual('no damage done', result)
 
     def test_finally_clause(self):
         result = None
@@ -65,4 +65,4 @@ class AboutExceptions(Koan):
         finally:
             result = 'always run'
 
-        self.assertEqual(__, result)
+        self.assertEqual('always run', result)
