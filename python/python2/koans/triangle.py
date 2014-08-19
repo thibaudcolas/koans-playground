@@ -19,6 +19,12 @@
 #
 def triangle(a, b, c):
     sides = set([a, b, c])
+
+    if 0 in sides:
+        raise TriangleError, "Side length cannot be 0"
+    elif sorted(sides)[0] < 0:
+        raise TriangleError, "Side length cannot be below 0"
+
     types = {
         1: 'equilateral',
         2: 'isosceles',
