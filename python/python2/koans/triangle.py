@@ -32,8 +32,8 @@ def triangle(a, b, c):
         2: 'isosceles',
         3: 'scalene'
     }
-    side_length_number = len(set(side))
-    return types[side_length_number]
+    side_length_count = len(set(side))
+    return types[side_length_count]
 
 
 # Error class used in part 2.  No need to change this code.

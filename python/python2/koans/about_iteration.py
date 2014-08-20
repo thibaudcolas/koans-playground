@@ -14,20 +14,20 @@ class AboutIteration(Koan):
         for num in it:
             fib += num
 
-        self.assertEqual(__, fib)
+        self.assertEqual(15, fib)
 
     def test_iterating_with_next(self):
         stages = iter(['alpha', 'beta', 'gamma'])
 
         try:
-            self.assertEqual(__, next(stages))
+            self.assertEqual('alpha', next(stages))
             next(stages)
-            self.assertEqual(__, next(stages))
+            self.assertEqual('gamma', next(stages))
             next(stages)
         except StopIteration as ex:
             err_msg = 'Ran out of iterations'
 
-        self.assertMatch(__, err_msg)
+        self.assertMatch('Ran out of iterations', err_msg)
 
     # ------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ class AboutIteration(Koan):
         seq = [1, 2, 3]
 
         mapped_seq = map(self.add_ten, seq)
-        self.assertEqual(__, mapped_seq)
+        self.assertEqual([11, 12, 13], mapped_seq)
 
     def test_filter_selects_certain_items_from_a_list(self):
         def is_even(item):
@@ -47,7 +47,7 @@ class AboutIteration(Koan):
         seq = [1, 2, 3, 4, 5, 6]
 
         even_numbers = filter(is_even, seq)
-        self.assertEqual(__, even_numbers)
+        self.assertEqual([2, 4, 6], even_numbers)
 
     def test_just_return_first_item_found(self):
         def is_big_name(item):
@@ -57,12 +57,12 @@ class AboutIteration(Koan):
 
         # NOTE This still iterates through the whole names, so not particularly
         # efficient
-        self.assertEqual([__], filter(is_big_name, names)[:1])
+        self.assertEqual(["Clarence"], filter(is_big_name, names)[:1])
 
         # Boring but effective
         for item in names:
             if is_big_name(item):
-                self.assertEqual(__, item)
+                self.assertEqual("Clarence", item)
                 break
 
     # ------------------------------------------------------------------
