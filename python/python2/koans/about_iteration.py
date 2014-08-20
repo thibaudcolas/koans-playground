@@ -75,13 +75,15 @@ class AboutIteration(Koan):
 
     def test_reduce_will_blow_your_mind(self):
         result = reduce(self.add, [2, 3, 4])
-        self.assertEqual(__, result)
+        self.assertEqual(9, result)
 
         result2 = reduce(self.multiply, [2, 3, 4], 1)
-        self.assertEqual(__, result2)
+        self.assertEqual(24, result2)
 
         # Extra Credit:
         # Describe in your own words what reduce does.
+        '''Reduce iterates through a collection from the leftmost item
+        to the rightmost, carrying an accumulator between iterations.'''
 
     # ------------------------------------------------------------------
 
@@ -89,14 +91,14 @@ class AboutIteration(Koan):
         for num in range(1, 5):
             pass
 
-        self.assertEqual(__, num)
+        self.assertEqual(4, num)
 
     # ------------------------------------------------------------------
 
     def test_all_iteration_methods_work_on_any_sequence_not_just_lists(self):
         # Ranges are an iterable sequence
         result = map(self.add_ten, range(1, 4))
-        self.assertEqual(__, list(result))
+        self.assertEqual([11, 12, 13], list(result))
 
         try:
             f = open("example_file.txt")
@@ -105,7 +107,7 @@ class AboutIteration(Koan):
                 def make_upcase(line):
                     return line.strip().upper()
                 upcase_lines = map(make_upcase, f.readlines())
-                self.assertEqual(__, list(upcase_lines))
+                self.assertEqual(['THIS', 'IS', 'A', 'TEST'], list(upcase_lines))
             finally:
                 # Arg, this is ugly.
                 # We will figure out how to fix this later.
