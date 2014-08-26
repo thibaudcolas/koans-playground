@@ -35,6 +35,16 @@ from runner.koan import *
 
 def score(dice):
     result = 0
+    roll_counter = {
+        '1': 0,
+        '2': 0,
+        '3': 0,
+        '4': 0,
+        '5': 0,
+        '6': 0
+    }
+    for num, count in roll_counter.iteritems():
+        pass
 
     return result
 
