@@ -43,6 +43,13 @@ def score(dice):
         '5': 0,
         '6': 0
     }
+
+    for num in dice:
+        if num == 5:
+            result += 50
+        if num == 1:
+            result += 100
+
     for num, count in roll_counter.iteritems():
         pass
 
