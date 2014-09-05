@@ -45,13 +45,11 @@ def score(dice):
     }
 
     for num in dice:
-        if num == 5:
-            result += 50
-        if num == 1:
-            result += 100
+        roll_counter[str(num)] += 1
 
     for num, count in roll_counter.iteritems():
-        pass
+        if int(num) == 5 and count == 1:
+            result += 50
 
     return result
 
