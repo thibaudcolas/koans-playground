@@ -50,6 +50,8 @@ def score(dice):
     for num, count in roll_counter.iteritems():
         if int(num) == 5 and count == 1:
             result += 50
+        if int(num) == 1 and count == 1:
+            result += 100
 
     return result
 
