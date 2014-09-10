@@ -48,13 +48,19 @@ def score(dice):
         roll_counter[str(num)] += 1
 
     for num, count in roll_counter.iteritems():
-        if int(num) == 1 and count == 3:
+        num = int(num)
+        if num == 1 and count >= 3:
             result += 1000
-        elif count == 3:
-            result += int(num) * 100
-        elif int(num) == 5:
+        elif count >= 3:
+            result += 100 * num
+
+        if num == 5 and count >= 3:
+            result += 50 * (count - 3)
+        elif num == 5 and count <= 3:
             result += 50 * count
-        elif int(num) == 1:
+        elif num == 1 and count >= 3:
+            result += 100 * (count - 3)
+        elif num == 1 and count <= 3:
             result += 100 * count
 
     return result
