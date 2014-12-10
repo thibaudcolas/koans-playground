@@ -76,8 +76,13 @@ class Game(object):
 
         for player in players:
             points = self.play_turn(player)
-            # TODO Fix accumulation cap for later rounds
-            if points >= Game.ACCUMULATION_CAP: player.accumulate_points(points)
+            # Before a player is allowed to accumulate points, they must get at
+            # least 300 points in a single turn. Once they have achieved 300 points
+            # in a single turn, the points earned in that turn and each following
+            # turn will be counted toward their total score.
+            if (player.points >= Game.ACCUMULATION_CAP) or (points >= Game.ACCUMULATION_CAP):
+                player.accumulate_points(points)
+
             game_ongoing = game_ongoing and (points < Game.FINAL_CAP)
 
         return game_ongoing
@@ -102,6 +107,7 @@ class Game(object):
             round_counter += 1
             playing = self.play_round(self._players)
 
+        # The winner is the player with the highest score after the final round.
         winner = self.play_last_round(self._players)
 
         return winner
