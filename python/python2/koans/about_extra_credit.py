@@ -39,31 +39,56 @@ class Player(object):
         self._dice.roll(5)
         return self._dice.values
 
+
+
 class Game(object):
     def __init__(self, players):
         self._players = players
-        self._turn = 0
+        self._round = 0
         self._playing = False
-        self._final_round = False
         self._winner = None
+        self._accumulation_cap = 300
+        self._final_cap = 3000
 
     def __str__(self):
-        return "t:{0}, p:{1}, fr:{2}, w:{3}, players:[{4}]".format(self._turn, self._playing, self._final_round, self._winner, ", ".join([str(player) for player in self._players]))
+        return "r:{0}, p:{1}, w:{2}, players:[{3}]".format(self._round, self._playing, self._winner, ", ".join([str(player) for player in self._players]))
+
+    @staticmethod
+    def best_player(players):
+        best = player[0]
+        for player in players:
+            if player.points > best.points:
+                best = player
+        return best
 
     def play_turn(self, player):
-        pass
+        points = 0
+        # TODO: Implement
+        return points
+
+    def play_round(self, players):
+        self._round += 1
+        final_cap_reached = False
+
+        for player in players:
+            points = self.play_turn(player)
+            if points >= self._accumulation_cap: player.accumulate_points(points)
+            final_cap_reached = final_cap_reached or (points >= self._final_cap)
+
+        return final_cap_reached
 
     def play(self):
         self._playing = True
 
-        while playing:
-            turn += 1
-            for player in players:
-                self.play_turn(player)
-            playing = False
-            pass
+        while self._playing:
+            self._playing = not self.play_round(self._players)
 
-        self._winner = None
+        player_over_cap = self.best_player(self._players)
+        self._players.remove(player_over_cap)
+        self.play_round(self._players)
+        self._players.add(player_over_cap)
+
+        self._winner = self.best_player(self._players)
 
 
 class AboutExtraCredit(Koan):
@@ -95,8 +120,8 @@ class AboutExtraCredit(Koan):
         self.assertFalse(roll == p.roll())
 
     def test_game_initialization(self):
-        g = Game([Player('p1'), Player('p2'), Player('p3')])
+        g1 = Game([Player('p1'), Player('p2'), Player('p3')])
         self.assertEqual(type(g), Game)
-        self.assertEquals(str(g), 't:0, p:False, fr:False, w:None, players:[p1: 0pts, p2: 0pts, p3: 0pts]')
+        self.assertEquals(str(g), 'r:0, p:False, w:None, players:[p1: 0pts, p2: 0pts, p3: 0pts]')
 
 
