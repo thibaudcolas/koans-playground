@@ -16,9 +16,11 @@ from about_dice_project import *
 
 
 class Player(object):
-    def __init__(self, name):
+    "Represents a player of the Greed Game. He has a name, points, and the ability to roll dices."
+
+    def __init__(self, name, points = 0):
         self._name = name
-        self._points = 0
+        self._points = points
         self._dice = DiceSet()
 
     def __str__(self):
@@ -36,59 +38,73 @@ class Player(object):
         self._points += points
 
     def roll(self):
+        # TODO Number of dices rolled should be parameterized.
         self._dice.roll(5)
         return self._dice.values
 
 
 
 class Game(object):
+    "Represents a game of Greed."
+
+    ACCUMULATION_CAP = 300
+    FINAL_CAP = 3000
+
     def __init__(self, players):
         self._players = players
-        self._round = 0
-        self._playing = False
-        self._winner = None
-        self._accumulation_cap = 300
-        self._final_cap = 3000
 
     def __str__(self):
-        return "r:{0}, p:{1}, w:{2}, players:[{3}]".format(self._round, self._playing, self._winner, ", ".join([str(player) for player in self._players]))
+        return "players:[{0}]".format(", ".join([str(player) for player in self._players]))
 
-    @staticmethod
-    def best_player(players):
-        best = player[0]
+    def pick_best_player(self, players):
+        "Pick the best player: the one with the most points."
+        best = players[0]
         for player in players:
             if player.points > best.points:
                 best = player
         return best
 
     def play_turn(self, player):
+        "One turn: actions of a single player in a round."
         points = 0
         # TODO: Implement
         return points
 
     def play_round(self, players):
-        self._round += 1
-        final_cap_reached = False
+        "One round: a turn for each player."
+        game_ongoing = True
 
         for player in players:
             points = self.play_turn(player)
-            if points >= self._accumulation_cap: player.accumulate_points(points)
-            final_cap_reached = final_cap_reached or (points >= self._final_cap)
+            # TODO Fix accumulation cap for later rounds
+            if points >= Game.ACCUMULATION_CAP: player.accumulate_points(points)
+            game_ongoing = game_ongoing and (points < Game.FINAL_CAP)
 
-        return final_cap_reached
+        return game_ongoing
+
+    def play_last_round(self, players):
+        "End game: last round for all but the best player."
+
+        best_player = self.pick_best_player(players)
+        players.remove(best_player)
+        self.play_round(players)
+        players.append(best_player)
+
+        return self.pick_best_player(players)
 
     def play(self):
-        self._playing = True
+        "Plays a game of Greed."
+        playing = True
+        round_counter = 0
 
-        while self._playing:
-            self._playing = not self.play_round(self._players)
+        # Add a count flag to prevent infinite recursion.
+        while playing and round_counter < 1000:
+            round_counter += 1
+            playing = self.play_round(self._players)
 
-        player_over_cap = self.best_player(self._players)
-        self._players.remove(player_over_cap)
-        self.play_round(self._players)
-        self._players.add(player_over_cap)
+        winner = self.play_last_round(self._players)
 
-        self._winner = self.best_player(self._players)
+        return winner
 
 
 class AboutExtraCredit(Koan):
@@ -98,20 +114,24 @@ class AboutExtraCredit(Koan):
         pass
 
     def test_player_initialization(self):
-        p1 = Player('p1')
-        self.assertEqual(p1.name, 'p1')
+        p1 = Player("p1")
+        self.assertEqual(p1.name, "p1")
         self.assertEqual(p1.points, 0)
 
-        p2 = Player('p2')
-        self.assertEqual(p2.name, 'p2')
-        self.assertEqual(p2.points, 0)
+        p2 = Player("p2", 500)
+        self.assertEqual(p2.name, "p2")
+        self.assertEqual(p2.points, 500)
 
-    def test_player_methods(self):
-        p = Player('p')
+    def test_player_points_couting(self):
+        p = Player("p")
         self.assertEqual(p.points, 0)
         p.accumulate_points(100)
         self.assertEqual(p.points, 100)
+        p.accumulate_points(100)
+        self.assertEqual(p.points, 200)
 
+    def test_player_dice_rolling(self):
+        p = Player("p")
         roll = p.roll()
 
         self.assertEqual(type(roll), list)
@@ -120,8 +140,38 @@ class AboutExtraCredit(Koan):
         self.assertFalse(roll == p.roll())
 
     def test_game_initialization(self):
-        g1 = Game([Player('p1'), Player('p2'), Player('p3')])
+        g = Game([Player("p1"), Player("p2"), Player("p3")])
         self.assertEqual(type(g), Game)
-        self.assertEquals(str(g), 'r:0, p:False, w:None, players:[p1: 0pts, p2: 0pts, p3: 0pts]')
+        self.assertEquals(str(g), "players:[p1: 0pts, p2: 0pts, p3: 0pts]")
+
+    def test_game_best_player_pick(self):
+        best = Player("ppp", 300)
+        players = [Player("p", 100), Player("pp", 200), best]
+        g = Game(players)
+        self.assertEqual(g.pick_best_player(players), best)
+        self.assertEqual(g.pick_best_player(players).points, best.points)
+
+    def test_game_play_turn(self):
+        p1 = Player("p1")
+        g = Game([p1, Player("p2"), Player("p3")])
+        self.assertEqual(type(g.play_turn(p1)), int)
+
+    def test_game_play_round(self):
+        p1 = Player("p1")
+        players = [p1, Player("p2"), Player("p3")]
+        g = Game(players)
+        self.assertEqual(type(g.play_round(players)), bool)
+
+    def test_game_play_last_round(self):
+        p1 = Player("p1")
+        players = [p1, Player("p2"), Player("p3")]
+        g = Game(players)
+        self.assertEqual(type(g.play_last_round(players)), Player)
+
+    def test_game_play(self):
+        p1 = Player("p1")
+        players = [p1, Player("p2"), Player("p3")]
+        g = Game(players)
+        self.assertEqual(type(g.play()), Player)
 
 
