@@ -97,7 +97,7 @@ class Game(object):
         playing = True
         round_counter = 0
 
-        # Add a count flag to prevent infinite recursion.
+        # The count flag prevents infinite loop.
         while playing and round_counter < 1000:
             round_counter += 1
             playing = self.play_round(self._players)
