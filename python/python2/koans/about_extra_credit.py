@@ -21,6 +21,9 @@ class Player(object):
         self._points = 0
         self._dice = DiceSet()
 
+    def __str__(self):
+        return "{0}: {1}pts".format(self._name, self._points)
+
     @property
     def name(self):
         return self._name
@@ -39,24 +42,28 @@ class Player(object):
 class Game(object):
     def __init__(self, players):
         self._players = players
+        self._turn = 0
+        self._playing = False
+        self._final_round = False
+        self._winner = None
 
-    def turn(self, player):
+    def __str__(self):
+        return "t:{0}, p:{1}, fr:{2}, w:{3}, players:[{4}]".format(self._turn, self._playing, self._final_round, self._winner, ", ".join([str(player) for player in self._players]))
+
+    def play_turn(self, player):
         pass
 
     def play(self):
-        turn = 0
-        playing = True
-        final_round = False
-        winner = None
+        self._playing = True
 
         while playing:
             turn += 1
             for player in players:
-                self.turn(player)
+                self.play_turn(player)
             playing = False
             pass
 
-        return winner
+        self._winner = None
 
 
 class AboutExtraCredit(Koan):
@@ -90,4 +97,6 @@ class AboutExtraCredit(Koan):
     def test_game_initialization(self):
         g = Game([Player('p1'), Player('p2'), Player('p3')])
         self.assertEqual(type(g), Game)
+        self.assertEquals(str(g), 't:0, p:False, fr:False, w:None, players:[p1: 0pts, p2: 0pts, p3: 0pts]')
+
 
