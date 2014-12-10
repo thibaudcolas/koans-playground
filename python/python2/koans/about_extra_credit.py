@@ -11,12 +11,15 @@
 # is a free form assignment, so approach it however you desire.
 
 from runner.koan import *
+from about_scoring_project import *
+from about_dice_project import *
 
 
 class Player(object):
     def __init__(self, name):
         self._name = name
         self._points = 0
+        self._dice = DiceSet()
 
     @property
     def name(self):
@@ -29,8 +32,32 @@ class Player(object):
     def accumulate_points(self, points):
         self._points += points
 
+    def roll(self):
+        self._dice.roll(5)
+        return self._dice.values
+
 class Game(object):
-    pass
+    def __init__(self, players):
+        self._players = players
+
+    def turn(self, player):
+        pass
+
+    def play(self):
+        turn = 0
+        playing = True
+        final_round = False
+        winner = None
+
+        while playing:
+            turn += 1
+            for player in players:
+                self.turn(player)
+            playing = False
+            pass
+
+        return winner
+
 
 class AboutExtraCredit(Koan):
     # Write tests here. If you need extra test classes add them to the
@@ -52,3 +79,15 @@ class AboutExtraCredit(Koan):
         self.assertEqual(p.points, 0)
         p.accumulate_points(100)
         self.assertEqual(p.points, 100)
+
+        roll = p.roll()
+
+        self.assertEqual(type(roll), list)
+        self.assertEqual(len(roll), 5)
+
+        self.assertFalse(roll == p.roll())
+
+    def test_game_initialization(self):
+        g = Game([Player('p1'), Player('p2'), Player('p3')])
+        self.assertEqual(type(g), Game)
+
