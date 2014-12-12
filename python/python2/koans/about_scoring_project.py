@@ -33,8 +33,26 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
-def score(dice):
-    result = 0
+def apply_score_rule(num, count):
+    score = 0
+
+    if num == 1 and count >= 3:
+        score += 1000
+    elif count >= 3:
+        score += 100 * num
+
+    if num == 5 and count >= 3:
+        score += 50 * (count - 3)
+    elif num == 5 and count <= 3:
+        score += 50 * count
+    elif num == 1 and count >= 3:
+        score += 100 * (count - 3)
+    elif num == 1 and count <= 3:
+        score += 100 * count
+
+    return score
+
+def count_dice_rolls(dice):
     roll_counter = {
         '1': 0,
         '2': 0,
@@ -47,23 +65,25 @@ def score(dice):
     for num in dice:
         roll_counter[str(num)] += 1
 
+    return roll_counter
+
+def score(dice):
+    roll_counter = count_dice_rolls(dice)
+    score = 0
+
     for num, count in roll_counter.iteritems():
-        num = int(num)
-        if num == 1 and count >= 3:
-            result += 1000
-        elif count >= 3:
-            result += 100 * num
+        score += apply_score_rule(int(num), count)
 
-        if num == 5 and count >= 3:
-            result += 50 * (count - 3)
-        elif num == 5 and count <= 3:
-            result += 50 * count
-        elif num == 1 and count >= 3:
-            result += 100 * (count - 3)
-        elif num == 1 and count <= 3:
-            result += 100 * count
+    return score
 
-    return result
+def score_hash(dice):
+    roll_counter = count_dice_rolls(dice)
+    score_counter = {}
+
+    for num, count in roll_counter.iteritems():
+        score_counter[num] = apply_score_rule(int(num), count)
+
+    return score_counter
 
 
 class AboutScoringProject(Koan):
