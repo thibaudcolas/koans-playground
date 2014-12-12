@@ -49,6 +49,7 @@ class Game(object):
 
     ACCUMULATION_CAP = 300
     FINAL_CAP = 3000
+    ITER_CAP = 100
 
     def __init__(self, players):
         self._players = players
@@ -67,8 +68,24 @@ class Game(object):
     def play_turn(self, player):
         "One turn: actions of a single player in a round."
         points = 0
+        roll_points = 0
+        roll_counter = 0
+        zero_roll = False
         # TODO: Implement
-        points += score(player.roll())
+        # The player may continue to roll as long as each roll scores points.
+        while not zero_roll and roll_counter < Game.ITER_CAP:
+            roll_counter += 1
+            score_hash = score_hash(player.roll())
+            for num, score in score_hash.iteritems():
+                roll_points += score
+            points += roll_points
+            zero_roll = roll_points == 0
+
+        # If a roll has zero points, then the player loses not only their turn,
+        # but also accumulated score for that turn.
+        if zero_roll:
+            points = 0
+
         return points
 
     def play_round(self, players):
@@ -106,7 +123,7 @@ class Game(object):
         round_counter = 0
 
         # The count flag prevents infinite loop.
-        while playing and round_counter < 100:
+        while playing and round_counter < Game.ITER_CAP:
             round_counter += 1
             playing = self.play_round(self._players)
 
