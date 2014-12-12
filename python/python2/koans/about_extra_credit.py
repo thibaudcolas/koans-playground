@@ -68,6 +68,7 @@ class Game(object):
         "One turn: actions of a single player in a round."
         points = 0
         # TODO: Implement
+        points += score(player.roll())
         return points
 
     def play_round(self, players):
@@ -83,7 +84,9 @@ class Game(object):
             if (player.points >= Game.ACCUMULATION_CAP) or (points >= Game.ACCUMULATION_CAP):
                 player.accumulate_points(points)
 
-            game_ongoing = game_ongoing and (points < Game.FINAL_CAP)
+            # Once a player reaches 3000 (or more) points, the game enters the final
+            # round where each of the other players gets one more turn.
+            game_ongoing = game_ongoing and (player.points < Game.FINAL_CAP)
 
         return game_ongoing
 
@@ -103,7 +106,7 @@ class Game(object):
         round_counter = 0
 
         # The count flag prevents infinite loop.
-        while playing and round_counter < 1000:
+        while playing and round_counter < 100:
             round_counter += 1
             playing = self.play_round(self._players)
 
