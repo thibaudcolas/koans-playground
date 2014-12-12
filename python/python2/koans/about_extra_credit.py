@@ -71,11 +71,12 @@ class Game(object):
         roll_counter = 0
         dice_number = Game.DICE_NUMBER
         zero_roll = False
-        # TODO: Implement
+        # TODO: Implement choice
         # The player may continue to roll as long as each roll scores points.
         while not zero_roll and roll_counter < Game.ITER_CAP:
             roll_points = 0
             roll_counter += 1
+            # TODO: Extract from play_turn
             score_counter = score_hash(player.roll(dice_number))
             for num, score in score_counter.iteritems():
                 if score != 0:
@@ -116,7 +117,6 @@ class Game(object):
             # round where each of the other players gets one more turn.
             game_ongoing = game_ongoing and (player.points < Game.FINAL_CAP)
 
-        print self
         return game_ongoing
 
     def play_last_round(self, players):
@@ -133,6 +133,8 @@ class Game(object):
         "Plays a game of Greed."
         playing = True
         round_counter = 0
+
+        # TODO: Add game UI
 
         # The count flag prevents infinite loop.
         while playing and round_counter < Game.ITER_CAP:
@@ -194,11 +196,15 @@ class AboutExtraCredit(Koan):
         g = Game([p1, Player("p2"), Player("p3")])
         self.assertEqual(type(g.play_turn(p1)), int)
 
+        # TODO: More tests!
+
     def test_game_play_round(self):
         p1 = Player("p1")
         players = [p1, Player("p2"), Player("p3")]
         g = Game(players)
         self.assertEqual(type(g.play_round(players)), bool)
+
+        # TODO: More tests!
 
     def test_game_play_last_round(self):
         p1 = Player("p1")
@@ -206,11 +212,15 @@ class AboutExtraCredit(Koan):
         g = Game(players)
         self.assertEqual(type(g.play_last_round(players)), Player)
 
+        # TODO: More tests!
+
     def test_game_play(self):
         p1 = Player("p1")
         players = [p1, Player("p2"), Player("p3")]
         g = Game(players)
         self.assertEqual(type(g.play()), Player)
+
+        # TODO: More tests!
 
     def test_score_of_an_empty_list_is_zero(self):
         self.assertEqual({'1': 0, '3': 0, '2': 0, '5': 0, '4': 0, '6': 0}, score_hash([]))
