@@ -37,9 +37,8 @@ class Player(object):
     def accumulate_points(self, points):
         self._points += points
 
-    def roll(self):
-        # TODO Number of dices rolled should be parameterized.
-        self._dice.roll(5)
+    def roll(self, n):
+        self._dice.roll(n)
         return self._dice.values
 
 
@@ -50,6 +49,7 @@ class Game(object):
     ACCUMULATION_CAP = 300
     FINAL_CAP = 3000
     ITER_CAP = 100
+    DICE_NUMBER = 5
 
     def __init__(self, players):
         self._players = players
@@ -68,18 +68,29 @@ class Game(object):
     def play_turn(self, player):
         "One turn: actions of a single player in a round."
         points = 0
-        roll_points = 0
         roll_counter = 0
+        dice_number = Game.DICE_NUMBER
         zero_roll = False
         # TODO: Implement
         # The player may continue to roll as long as each roll scores points.
         while not zero_roll and roll_counter < Game.ITER_CAP:
+            roll_points = 0
             roll_counter += 1
-            score_hash = score_hash(player.roll())
-            for num, score in score_hash.iteritems():
-                roll_points += score
+            score_counter = score_hash(player.roll(dice_number))
+            for num, score in score_counter.iteritems():
+                if score != 0:
+                    roll_points += score
+                    # After a player rolls and the score is calculated, the scoring dice are
+                    # removed and the player has the option of rolling again using only the
+                    # non-scoring dice.
+                    dice_number -= 1
             points += roll_points
             zero_roll = roll_points == 0
+
+            # If all of the thrown dice are scoring, then the
+            # player may roll all 5 dice in the next roll.
+            if dice_number == 0:
+                dice_number = Game.DICE_NUMBER
 
         # If a roll has zero points, then the player loses not only their turn,
         # but also accumulated score for that turn.
@@ -105,6 +116,7 @@ class Game(object):
             # round where each of the other players gets one more turn.
             game_ongoing = game_ongoing and (player.points < Game.FINAL_CAP)
 
+        print self
         return game_ongoing
 
     def play_last_round(self, players):
@@ -158,12 +170,12 @@ class AboutExtraCredit(Koan):
 
     def test_player_dice_rolling(self):
         p = Player("p")
-        roll = p.roll()
+        roll = p.roll(Game.DICE_NUMBER)
 
         self.assertEqual(type(roll), list)
         self.assertEqual(len(roll), 5)
 
-        self.assertFalse(roll == p.roll())
+        self.assertFalse(roll == p.roll(Game.DICE_NUMBER))
 
     def test_game_initialization(self):
         g = Game([Player("p1"), Player("p2"), Player("p3")])
