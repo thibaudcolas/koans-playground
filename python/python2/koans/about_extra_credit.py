@@ -41,6 +41,10 @@ class Player(object):
         self._dice.roll(n)
         return self._dice.values
 
+    def continue_roll(self, points, dice_number):
+        # TODO: To implement
+        return True
+
 
 
 class Game(object):
@@ -71,9 +75,10 @@ class Game(object):
         roll_counter = 0
         dice_number = Game.DICE_NUMBER
         zero_roll = False
+        continue_roll = True
         # TODO: Implement choice
         # The player may continue to roll as long as each roll scores points.
-        while not zero_roll and roll_counter < Game.ITER_CAP:
+        while continue_roll and (not zero_roll) and roll_counter < Game.ITER_CAP:
             roll_points = 0
             roll_counter += 1
             # TODO: Extract from play_turn
@@ -92,6 +97,8 @@ class Game(object):
             # player may roll all 5 dice in the next roll.
             if dice_number == 0:
                 dice_number = Game.DICE_NUMBER
+
+            continue_roll = player.continue_roll(points, dice_number)
 
         # If a roll has zero points, then the player loses not only their turn,
         # but also accumulated score for that turn.
