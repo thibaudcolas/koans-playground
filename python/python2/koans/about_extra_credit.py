@@ -26,6 +26,9 @@ class Player(object):
     def __str__(self):
         return "{0}: {1}pts".format(self._name, self._points)
 
+    def __repr__(self):
+        return str(self)
+
     @property
     def name(self):
         return self._name
@@ -60,6 +63,9 @@ class Game(object):
 
     def __str__(self):
         return "players:[{0}]".format(", ".join([str(player) for player in self._players]))
+
+    def __repr__(self):
+        return str(self)
 
     def pick_best_player(self, players):
         "Pick the best player: the one with the most points."
@@ -129,10 +135,14 @@ class Game(object):
     def play_last_round(self, players):
         "End game: last round for all but the best player."
 
+        UI.display('LAST')
+
         best_player = self.pick_best_player(players)
         players.remove(best_player)
         self.play_round(players)
         players.append(best_player)
+
+        UI.display('BEST', best_player)
 
         return self.pick_best_player(players)
 
@@ -141,18 +151,48 @@ class Game(object):
         playing = True
         round_counter = 0
 
-        # TODO: Add game UI
+        UI.display('START')
 
         # The count flag prevents infinite loop.
         while playing and round_counter < Game.ITER_CAP:
             round_counter += 1
+            UI.display('ROUND', round_counter)
             playing = self.play_round(self._players)
 
         # The winner is the player with the highest score after the final round.
         winner = self.play_last_round(self._players)
 
+        UI.display('END')
+        UI.display('PLAYERS', self._players)
+        UI.display('WINNER', winner)
+
         return winner
 
+
+class UI(object):
+    "Represents the user interface for a game of Greed"
+
+    ITEMS = {
+        'EN_SHORT': {
+            'START': 'Start!',
+            'END': 'End!',
+            'LAST': 'Last Round Start!',
+            'PLAYER': 'Player: {0}',
+            'PLAYERS': 'Players: {0}',
+            'WINNER': 'Winner: {0}',
+            'BEST': 'Best: {0}',
+            'SCORE': 'Score: {0}',
+            'ROUND': 'Round: {0}'
+        }
+    }
+
+    @staticmethod
+    def output(item, a, b, c):
+        return UI.ITEMS['EN_SHORT'][item].format(a, b, c)
+
+    @staticmethod
+    def display(item, a = None, b = None, c = None):
+        print UI.output(item, a, b, c)
 
 class AboutExtraCredit(Koan):
     # Write tests here. If you need extra test classes add them to the
