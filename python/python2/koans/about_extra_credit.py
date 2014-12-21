@@ -46,6 +46,7 @@ class Player(object):
 
     def continue_roll(self, points, dice_number):
         # TODO: To implement
+
         return True
 
 
@@ -55,7 +56,7 @@ class Game(object):
 
     ACCUMULATION_CAP = 300
     FINAL_CAP = 3000
-    ITER_CAP = 100
+    ITER_CAP = 30
     DICE_NUMBER = 5
 
     def __init__(self, players):
@@ -79,16 +80,17 @@ class Game(object):
         "One turn: actions of a single player in a round."
         points = 0
         roll_counter = 0
+        roll = []
         dice_number = Game.DICE_NUMBER
         zero_roll = False
         continue_roll = True
-        # TODO: Implement choice
         # The player may continue to roll as long as each roll scores points.
         while continue_roll and (not zero_roll) and roll_counter < Game.ITER_CAP:
             roll_points = 0
             roll_counter += 1
-            # TODO: Extract from play_turn
-            score_counter = score_hash(player.roll(dice_number))
+            roll = player.roll(dice_number)
+
+            score_counter = score_hash(roll)
             for num, score in score_counter.iteritems():
                 if score != 0:
                     roll_points += score
@@ -105,6 +107,8 @@ class Game(object):
                 dice_number = Game.DICE_NUMBER
 
             continue_roll = player.continue_roll(points, dice_number)
+
+            UI.display_roll(player.name, roll_counter, roll, points, dice_number, continue_roll)
 
         # If a roll has zero points, then the player loses not only their turn,
         # but also accumulated score for that turn.
@@ -152,18 +156,19 @@ class Game(object):
         round_counter = 0
 
         UI.display('START')
+        UI.display('PLAYERS', self._players)
 
         # The count flag prevents infinite loop.
         while playing and round_counter < Game.ITER_CAP:
             round_counter += 1
             UI.display('ROUND', round_counter)
             playing = self.play_round(self._players)
+            UI.display('PLAYERS', self._players)
 
         # The winner is the player with the highest score after the final round.
         winner = self.play_last_round(self._players)
 
         UI.display('END')
-        UI.display('PLAYERS', self._players)
         UI.display('WINNER', winner)
 
         return winner
@@ -181,22 +186,35 @@ class UI(object):
             'PLAYERS': 'Players: {0}',
             'WINNER': 'Winner: {0}',
             'BEST': 'Best: {0}',
+            'POINTS': 'Points: {0}',
             'SCORE': 'Score: {0}',
-            'ROUND': 'Round: {0}'
-        }
+            'ROUND': 'Round: {0}',
+            'ROLL': 'Roll: {0}',
+            'DICE': 'Dice: {0}',
+        },
+        'EN_LONG': {
+            'ROLL': '- {0} #{1} roll: {2}, {3}pts, {4}dcs, again? {5}',
+        },
     }
 
     @staticmethod
-    def output(item, a, b, c):
+    def output_short(item, a, b, c):
         return UI.ITEMS['EN_SHORT'][item].format(a, b, c)
 
     @staticmethod
-    def display(item, a = None, b = None, c = None):
-        print UI.output(item, a, b, c)
+    def output_long(item, a, b, c, d, e, f):
+        return UI.ITEMS['EN_LONG'][item].format(a, b, c, d, e, f)
+
+    @staticmethod
+    def display(item, a = None, b = None, c = None, d = None, e = None, f = None):
+        print UI.output_short(item, a, b, c)
+
+    @staticmethod
+    def display_roll(name, roll_number, roll, points, dice, choice):
+        print UI.output_long('ROLL', name, roll_number, roll, points, dice, choice)
 
 class AboutExtraCredit(Koan):
-    # Write tests here. If you need extra test classes add them to the
-    # test suite in runner/path_to_enlightenment.py
+
     def test_extra_credit_task(self):
         pass
 
@@ -243,15 +261,11 @@ class AboutExtraCredit(Koan):
         g = Game([p1, Player("p2"), Player("p3")])
         self.assertEqual(type(g.play_turn(p1)), int)
 
-        # TODO: More tests!
-
     def test_game_play_round(self):
         p1 = Player("p1")
         players = [p1, Player("p2"), Player("p3")]
         g = Game(players)
         self.assertEqual(type(g.play_round(players)), bool)
-
-        # TODO: More tests!
 
     def test_game_play_last_round(self):
         p1 = Player("p1")
@@ -259,15 +273,11 @@ class AboutExtraCredit(Koan):
         g = Game(players)
         self.assertEqual(type(g.play_last_round(players)), Player)
 
-        # TODO: More tests!
-
     def test_game_play(self):
         p1 = Player("p1")
         players = [p1, Player("p2"), Player("p3")]
         g = Game(players)
         self.assertEqual(type(g.play()), Player)
-
-        # TODO: More tests!
 
     def test_score_of_an_empty_list_is_zero(self):
         self.assertEqual({'1': 0, '3': 0, '2': 0, '5': 0, '4': 0, '6': 0}, score_hash([]))
