@@ -171,8 +171,7 @@ class Game(object):
         winner = self.play_last_round(self._players)
         UI.display_round(round_counter + 1, True, self._players)
 
-        UI.display('END')
-        UI.display('WINNER', winner)
+        UI.display_winner(winner)
 
         return winner
 
@@ -197,7 +196,8 @@ class UI(object):
         },
         'EN_LONG': {
             'ROLL': '│  {0} #{1} roll: {2}, {3}pts, {4}dcs, again? {5}',
-            'ROUND': '├ Round #{0}! Last? {1}, Players! {2}',
+            'ROUND': '├ Round #{0}! Last? {1}, Players: {2}',
+            'WINNER': '└── And the winner is... {0}! With {1}points.',
         },
     }
 
@@ -216,6 +216,10 @@ class UI(object):
     @staticmethod
     def display_round(round_number, last_round, players):
         print UI.ITEMS['EN_LONG']['ROUND'].format(round_number, last_round, players)
+
+    @staticmethod
+    def display_winner(winner):
+        print UI.ITEMS['EN_LONG']['WINNER'].format(winner.name, winner.points)
 
 class AboutExtraCredit(Koan):
 
