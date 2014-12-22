@@ -206,20 +206,16 @@ class UI(object):
     }
 
     @staticmethod
-    def output_short(item, a, b, c):
-        return UI.ITEMS['EN_SHORT'][item].format(a, b, c)
+    def output_short(item, val):
+        return UI.ITEMS['EN_SHORT'][item].format(val)
 
     @staticmethod
-    def output_long(item, a, b, c, d, e, f):
-        return UI.ITEMS['EN_LONG'][item].format(a, b, c, d, e, f)
-
-    @staticmethod
-    def display(item, a = None, b = None, c = None, d = None, e = None, f = None):
-        print UI.output_short(item, a, b, c)
+    def display(item, val = None):
+        print UI.output_short(item, val)
 
     @staticmethod
     def display_roll(name, roll_number, roll, points, dice, choice):
-        print UI.output_long('ROLL', name, roll_number, roll, points, dice, choice)
+        print UI.ITEMS['EN_LONG']['ROLL'].format(name, roll_number, roll, points, dice, choice)
 
 class AboutExtraCredit(Koan):
 
