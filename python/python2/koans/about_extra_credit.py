@@ -18,6 +18,11 @@ from about_dice_project import *
 class Player(object):
     "Represents a player of the Greed Game. He has a name, points, and the ability to roll dices."
 
+    HIGH_DICE_CAP = 4
+    LOW_DICE_CAP = 2
+    HIGH_POINTS_CAP = 1000
+    LOW_POINTS_CAP = 200
+
     def __init__(self, name, points = 0):
         self._name = name
         self._points = points
@@ -44,12 +49,14 @@ class Player(object):
         self._dice.roll(n)
         return self._dice.values
 
-    def continue_roll(self, points, dice_number):
-        # TODO: To implement
-
-        return True
-
-
+    def continue_roll(self, points, dices):
+        stop = [
+            points > Player.HIGH_POINTS_CAP and dices < Player.HIGH_DICE_CAP,
+            points > Player.LOW_POINTS_CAP and dices < Player.LOW_DICE_CAP and self.points != 0,
+            points > Game.ACCUMULATION_CAP and self.points == 0,
+            self.points + points > Game.FINAL_CAP,
+        ]
+        return not (True in stop)
 
 class Game(object):
     "Represents a game of Greed."
@@ -106,14 +113,14 @@ class Game(object):
             if dice_number == 0:
                 dice_number = Game.DICE_NUMBER
 
+            # If a roll has zero points, then the player loses not only their turn,
+            # but also accumulated score for that turn.
+            if zero_roll:
+                points = 0
+
             continue_roll = player.continue_roll(points, dice_number)
 
             UI.display_roll(player.name, roll_counter, roll, points, dice_number, continue_roll)
-
-        # If a roll has zero points, then the player loses not only their turn,
-        # but also accumulated score for that turn.
-        if zero_roll:
-            points = 0
 
         return points
 
