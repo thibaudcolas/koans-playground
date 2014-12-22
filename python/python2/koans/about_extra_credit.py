@@ -147,14 +147,10 @@ class Game(object):
     def play_last_round(self, players):
         "End game: last round for all but the best player."
 
-        UI.display('LAST')
-
         best_player = self.pick_best_player(players)
         players.remove(best_player)
         self.play_round(players)
         players.append(best_player)
-
-        UI.display('BEST', best_player)
 
         return self.pick_best_player(players)
 
@@ -164,17 +160,16 @@ class Game(object):
         round_counter = 0
 
         UI.display('START')
-        UI.display('PLAYERS', self._players)
 
         # The count flag prevents infinite loop.
         while playing and round_counter < Game.ITER_CAP:
             round_counter += 1
-            UI.display('ROUND', round_counter)
             playing = self.play_round(self._players)
-            UI.display('PLAYERS', self._players)
+            UI.display_round(round_counter, False, self._players)
 
         # The winner is the player with the highest score after the final round.
         winner = self.play_last_round(self._players)
+        UI.display_round(round_counter + 1, True, self._players)
 
         UI.display('END')
         UI.display('WINNER', winner)
@@ -201,7 +196,8 @@ class UI(object):
             'DICE': 'Dice: {0}',
         },
         'EN_LONG': {
-            'ROLL': '- {0} #{1} roll: {2}, {3}pts, {4}dcs, again? {5}',
+            'ROLL': '│  {0} #{1} roll: {2}, {3}pts, {4}dcs, again? {5}',
+            'ROUND': '├ Round #{0}! Last? {1}, Players! {2}',
         },
     }
 
@@ -216,6 +212,10 @@ class UI(object):
     @staticmethod
     def display_roll(name, roll_number, roll, points, dice, choice):
         print UI.ITEMS['EN_LONG']['ROLL'].format(name, roll_number, roll, points, dice, choice)
+
+    @staticmethod
+    def display_round(round_number, last_round, players):
+        print UI.ITEMS['EN_LONG']['ROUND'].format(round_number, last_round, players)
 
 class AboutExtraCredit(Koan):
 
