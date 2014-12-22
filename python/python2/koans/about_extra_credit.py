@@ -20,7 +20,7 @@ class Player(object):
 
     HIGH_DICE_CAP = 4
     LOW_DICE_CAP = 2
-    HIGH_POINTS_CAP = 1000
+    HIGH_POINTS_CAP = 800
     LOW_POINTS_CAP = 200
 
     def __init__(self, name, points = 0):
@@ -56,6 +56,7 @@ class Player(object):
             points > Game.ACCUMULATION_CAP and self.points == 0,
             self.points + points > Game.FINAL_CAP,
         ]
+
         return not (True in stop)
 
 class Game(object):
@@ -251,10 +252,37 @@ class AboutExtraCredit(Koan):
 
         self.assertFalse(roll == p.roll(Game.DICE_NUMBER))
 
+    def test_player_continue_roll_choice(self):
+        p1 = Player("p1")
+        self.assertEqual(True, p1.continue_roll(250, 1))
+        self.assertEqual(True, p1.continue_roll(250, 4))
+
+        self.assertEqual(False, p1.continue_roll(1000, 5))
+        self.assertEqual(False, p1.continue_roll(1000, 2))
+
+        self.assertEqual(False, p1.continue_roll(350, 5))
+        self.assertEqual(False, p1.continue_roll(350, 1))
+
+        self.assertEqual(False, p1.continue_roll(3100, 1))
+        self.assertEqual(False, p1.continue_roll(3100, 5))
+
+        p2 = Player("p2", 500)
+        self.assertEqual(False, p2.continue_roll(250, 1))
+        self.assertEqual(True, p2.continue_roll(250, 4))
+
+        self.assertEqual(True, p2.continue_roll(1000, 5))
+        self.assertEqual(False, p2.continue_roll(1000, 2))
+
+        self.assertEqual(True, p2.continue_roll(350, 5))
+        self.assertEqual(False, p2.continue_roll(350, 1))
+
+        self.assertEqual(False, p2.continue_roll(2800, 2))
+        self.assertEqual(False, p2.continue_roll(2800, 5))
+
     def test_game_initialization(self):
         g = Game([Player("p1"), Player("p2"), Player("p3")])
         self.assertEqual(type(g), Game)
-        self.assertEquals(str(g), "players:[p1: 0pts, p2: 0pts, p3: 0pts]")
+        self.assertEqual(str(g), "players:[p1: 0pts, p2: 0pts, p3: 0pts]")
 
     def test_game_best_player_pick(self):
         best = Player("ppp", 300)
