@@ -22,12 +22,12 @@ func aboutArrays() {
 
 	tasty_fruits[0] = "lemon" // are their shared roots truly identical?
 
-	assert(fruits[0] == __string__) // has this element remained the same?
-	assert(fruits[1] == __string__) // how about the second?
-	assert(fruits[2] == __string__) // surely one of these must have changed
-	assert(fruits[3] == __string__) // but who can know these things
+	assert(fruits[0] == "apple") // has this element remained the same?
+	assert(fruits[1] == "lemon") // how about the second?
+	assert(fruits[2] == "mango") // surely one of these must have changed
+	assert(fruits[3] == "") // but who can know these things
 
 	veggies := [...]string{"carrot", "pea"}
 
-	assert(len(veggies) == __int__) // array literals need not repeat an obvious length
+	assert(len(veggies) == 2) // array literals need not repeat an obvious length
 }
