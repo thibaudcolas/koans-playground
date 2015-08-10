@@ -8,17 +8,17 @@ func aboutArrays() {
 	assert(fruits[2] == "mango") // it takes two to ...tango?
 	assert(fruits[3] == "") // there is no spoon, only an empty value
 
-	assert(len(fruits) == __int__) // the length is what the length is
-	assert(cap(fruits) == __int__) // it can hold no more
+	assert(len(fruits) == 4) // the length is what the length is
+	assert(cap(fruits) == 4) // it can hold no more
 
-	assert(fruits == [4]string{}) // comparing arrays is not like comparing apples and oranges
+	assert(fruits == [4]string{"apple", "orange", "mango"}) // comparing arrays is not like comparing apples and oranges
 
 	tasty_fruits := fruits[1:3]           // defining oneself as a variation of another
-	assert(tasty_fruits[0] == __string__) // slices of arrays share some data
-	assert(tasty_fruits[1] == __string__) // albeit slightly askewed
+	assert(tasty_fruits[0] == "orange") // slices of arrays share some data
+	assert(tasty_fruits[1] == "mango") // albeit slightly askewed
 
-	assert(len(tasty_fruits) == __int__) // its length is manifest
-	assert(cap(tasty_fruits) == __int__) // but its capacity is surprising!
+	assert(len(tasty_fruits) == 2) // its length is manifest
+	assert(cap(tasty_fruits) == 3) // but its capacity is surprising!
 
 	tasty_fruits[0] = "lemon" // are their shared roots truly identical?
 
