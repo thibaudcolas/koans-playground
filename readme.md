@@ -9,5 +9,6 @@ Contains the following koans/exercises:
 - JS Assessment, https://github.com/rmurphey/js-assessment
 - Test Anything, https://github.com/finnp/test-anything
 - learnyoureact, https://github.com/tako-black/learnyoureact
+- Thinking in React, https://github.com/asbjornenge/thinking-in-react
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
