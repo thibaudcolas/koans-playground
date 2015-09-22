@@ -10,5 +10,6 @@ Contains the following koans/exercises:
 - Test Anything, https://github.com/finnp/test-anything
 - learnyoureact, https://github.com/tako-black/learnyoureact
 - Thinking in React, https://github.com/asbjornenge/thinking-in-react
+- LoLoLoDash, https://github.com/mdunisch/lololodash
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
