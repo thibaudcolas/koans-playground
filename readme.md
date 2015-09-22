@@ -11,5 +11,6 @@ Contains the following koans/exercises:
 - learnyoureact, https://github.com/tako-black/learnyoureact
 - Thinking in React, https://github.com/asbjornenge/thinking-in-react
 - LoLoLoDash, https://github.com/mdunisch/lololodash
+- Test-drive D3, https://github.com/ThibWeb/testdrived3
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
