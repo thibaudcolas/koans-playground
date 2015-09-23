@@ -1,5 +1,5 @@
-var _ = require('lodash');
+import _ from 'lodash';
 
-module.exports = function(collection) {
+export default function(collection) {
     return _.sortBy(collection, 'quantity').reverse();
 };

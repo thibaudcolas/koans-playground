@@ -1,5 +1,5 @@
-var _ = require('lodash');
+import _ from 'lodash';
 
-module.exports = function(collection) {
-    return _.where(collection, { active: true });
+export default function(collection) {
+    return _.where(collection, { active: true});
 };
