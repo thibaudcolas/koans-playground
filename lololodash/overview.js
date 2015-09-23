@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-export default function (collection) {
+export default function(collection) {
     return _.chain(collection)
         .groupBy('article')
         .map((articles) => {
