@@ -1,5 +1,5 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
 export default function(collection) {
-    return _.sortBy(collection, 'quantity').reverse();
-};
+    return _.sortBy(collection, 'quantity').reverse()
+}
