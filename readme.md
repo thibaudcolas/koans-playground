@@ -1,7 +1,7 @@
 The Koans Playground
 ====================
 
-Contains the following koans/exercises:
+Contains the following koans/exercises/workshops:
 
 - Python, https://github.com/gregmalcolm/python_koans
 - Go, https://github.com/cdarwin/go-koans
@@ -12,5 +12,6 @@ Contains the following koans/exercises:
 - Thinking in React, https://github.com/asbjornenge/thinking-in-react
 - LoLoLoDash, https://github.com/mdunisch/lololodash
 - Test-drive D3, https://github.com/ThibWeb/testdrived3
+- Count to 6, https://github.com/domenic/count-to-6
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
