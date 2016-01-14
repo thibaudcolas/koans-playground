@@ -1,0 +1,78 @@
+/***************** arrow-functions-1.js *****************/
+const inputs = process.argv.slice(2);
+
+// First, extract the first character of all input strings.
+// Then, concatenate all those first chars with reduce.
+const result = inputs.map(str => str.charAt(0))
+    .reduce((chain, str) => {
+        return `${chain}${str}`;
+    }, '');
+
+// No one will ever guess that format.
+console.log(`[${inputs}] becomes "${result}"`);
+/***************** arrow-functions-2.js *****************/
+const foot = {
+    kick() {
+        this.yelp = 'Ouch!';
+
+        setImmediate(() => {
+            // Since we used an arrow function, `this` here is the same as `this` outside of the function.
+            console.log(this.yelp);
+        });
+    },
+};
+
+foot.kick();
+/***************** default-arguments-1.js *****************/
+module.exports = function midpoint(x = 0, y = 1) {
+    return (x + y) / 2;
+};
+/***************** default-arguments-2.js *****************/
+module.exports = function(string, bangs = string.length) {
+    // The repeat function is new in ES6.
+    return string + '!'.repeat(bangs);
+};
+/***************** hello-es6.js *****************/
+console.log('HELLO ES6');
+/***************** rest.js *****************/
+module.exports = function average(...numbers) {
+    // Using reduce to calculate a sum.
+    const sum = numbers.reduce((last, num) => {
+        return last + num;
+    }, 0);
+
+    return sum / numbers.length;
+};
+/***************** spread.js *****************/
+const numbers = process.argv.splice(2, process.argv.length);
+
+// Math.min can take lots of arguments.
+const min = Math.min(...numbers);
+
+// No one will ever guess that format.
+console.log(`The minimum of [${numbers}] is ${min}`);
+/***************** tagged-template.js *****************/
+const inputName = process.argv[2];
+const inputMessage = process.argv[3];
+
+// The WTF exercise.
+function html(str, name, message) {
+    const escaped = message
+        .replace(/&/g, '&amp;')
+        .replace(/'/g, '&apos;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    return str[0] + name + str[1] + escaped + str[2];
+}
+
+// No one will ever guess that format.
+console.log(html`<b>${inputName} says</b>: "${inputMessage}"`);
+/***************** template-strings.js *****************/
+const name = process.argv[2];
+
+const message = `Hello, ${name}!
+Your name lowercased is "${name.toLowerCase()}".`;
+
+console.log(message);
