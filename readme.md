@@ -13,5 +13,6 @@ Contains the following koans/exercises/workshops:
 - LoLoLoDash, https://github.com/mdunisch/lololodash
 - Test-drive D3, https://github.com/ThibWeb/testdrived3
 - Count to 6, https://github.com/domenic/count-to-6
+- Pattern Lab, https://github.com/phase2/pattern-lab-workshop
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
