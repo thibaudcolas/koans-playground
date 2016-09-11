@@ -11,7 +11,7 @@ Contains the following koans/exercises/workshops:
 - learnyoureact, https://github.com/tako-black/learnyoureact
 - Thinking in React, https://github.com/asbjornenge/thinking-in-react
 - LoLoLoDash, https://github.com/mdunisch/lololodash
-- Test-drive D3, https://github.com/ThibWeb/testdrived3
+- Test-drive D3, https://github.com/thibaudcolas/testdrived3
 - Count to 6, https://github.com/domenic/count-to-6
 - Pattern Lab, https://github.com/phase2/pattern-lab-workshop
 
