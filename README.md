@@ -14,5 +14,6 @@ Contains the following koans/exercises/workshops:
 - Test-drive D3, https://github.com/thibaudcolas/testdrived3
 - Count to 6, https://github.com/domenic/count-to-6
 - Pattern Lab, https://github.com/phase2/pattern-lab-workshop
+- Elementary Electron, https://github.com/maxogden/elementary-electron
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
