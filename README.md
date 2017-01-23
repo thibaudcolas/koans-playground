@@ -15,5 +15,6 @@ Contains the following koans/exercises/workshops:
 - Count to 6, https://github.com/domenic/count-to-6
 - Pattern Lab, https://github.com/phase2/pattern-lab-workshop
 - Elementary Electron, https://github.com/maxogden/elementary-electron
+- Official Elm guide, https://guide.elm-lang.org/
 
 Other koans: https://github.com/ahmdrefat/awesome-koans
