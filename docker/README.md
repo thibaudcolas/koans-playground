@@ -31,10 +31,35 @@ Workflow:
 
 Docker images hub: https://hub.docker.com/
 
+Official PHP images: https://hub.docker.com/_/php/
+
 See [`hello-world/`](hello-world/).
 
 ```sh
 cd hello-world
-# Build the image. giving it a name.
+# Build the image. giving it a name (and optionally a tag, name:tag)
 docker build -t hello-world .
+
+# Run the image, forwarding port 80 from the host to port 80 in the container
+docker run -p 80:80 hello-world
+
+# Go to the page, show the container's output.
+open http://localhost/
 ```
+
+### Volumes
+
+Two types:
+
+*   Persist / share data between containers
+*   Share data between the host and container (mount local dir as volume)
+
+```sh
+# Same container, but this time mounting a volume – the src dir to the container’s /var/www/html.
+# Note: needs the full path, not relative
+docker run -p 80:80 -v "$(pwd)/src:/var/www/html" hello-world
+```
+
+### Stopping containers
+
+`Ctrl + C` …or when the container's main process stops. Do not run background processes.
