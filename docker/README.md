@@ -1,6 +1,6 @@
 # Docker Playground
 
-## Learn Docker in 12 minutes 🐳
+## [Learn Docker in 12 minutes 🐳](https://www.youtube.com/watch?v=YFl2mCHdv24)
 
 > https://www.youtube.com/watch?v=YFl2mCHdv24
 
@@ -63,3 +63,20 @@ docker run -p 80:80 -v "$(pwd)/src:/var/www/html" hello-world
 ### Stopping containers
 
 `Ctrl + C` …or when the container's main process stops. Do not run background processes.
+
+## [Docker Compose in 12 Minutes](https://www.youtube.com/watch?v=Qw9zlE3t8Ko)
+
+> An image is a template for the environment you want to run.
+
+Run an image -> get a container.
+
+> Docker compose: lets us define all our services in a configuration file, spin up all the containers with one command.
+
+`docker-compose.yml`: the stuff we would have specified in the `docker run` command.
+
+```sh
+# Build and run all the containers defined in the docker-compose.yml file.
+docker-compose up
+```
+
+https://youtu.be/Qw9zlE3t8Ko?t=8m19s

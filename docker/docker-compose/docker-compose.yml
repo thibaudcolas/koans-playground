@@ -1,0 +1,14 @@
+# Version of the docker-compose file format, not of docker-compose / docker.
+version: '3'
+
+services:
+    # Our service's name.
+    product-service:
+        # What to build.
+        build: ./product
+        volumes:
+            # Local path: container path.
+            - ./product:/usr/src/app
+        ports:
+            # Local port: container port
+            - 5001:80
