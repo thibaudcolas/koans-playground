@@ -64,6 +64,8 @@ docker run -p 80:80 -v "$(pwd)/src:/var/www/html" hello-world
 
 `Ctrl + C` …or when the container's main process stops. Do not run background processes.
 
+---
+
 ## [Docker Compose in 12 Minutes](https://www.youtube.com/watch?v=Qw9zlE3t8Ko)
 
 > An image is a template for the environment you want to run.
@@ -77,6 +79,27 @@ Run an image -> get a container.
 ```sh
 # Build and run all the containers defined in the docker-compose.yml file.
 docker-compose up
+
+# Product service
+open http://localhost:5001/
+# Website
+open http://localhost:5000/
 ```
 
-https://youtu.be/Qw9zlE3t8Ko?t=8m19s
+Docker-compose creates a virtual network for all of the containers, where the container hostname matches the service name.
+
+```sh
+# Detached mode.
+docker-compose up -d
+
+# See running containers.
+docker ps
+
+$ docker ps
+CONTAINER ID        IMAGE                           COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+61d7f20c403e        php:apache                      "docker-php-entrypoi…"   About a minute ago   Up 14 seconds       0.0.0.0:5000->80/tcp                             dockercompose_website_1
+2788f427d122        dockercompose_product-service   "python api.py"          44 minutes ago       Up 15 seconds       0.0.0.0:5001->80/tcp                             dockercompose_product-service_1
+
+# Stop detached containers.
+docker-compose stop
+```

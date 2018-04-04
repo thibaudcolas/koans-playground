@@ -8,7 +8,19 @@ services:
         build: ./product
         volumes:
             # Local path: container path.
+            # This is just for dev convenience.
             - ./product:/usr/src/app
         ports:
             # Local port: container port
             - 5001:80
+    website:
+        # Use an existing image to build.
+        image: php:apache
+        volumes:
+            # This is NOT for dev convenience, as we use a ready-made image.
+            - ./website:/var/www/html
+        ports:
+            - 5000:80
+        # Define the dependencies of website.
+        depends_on:
+            - product-service
