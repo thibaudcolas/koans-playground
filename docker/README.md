@@ -14,13 +14,6 @@
 
 …without the overhead of a virtual machine
 
-### Vocabulary
-
-> Container: running instance of an image
->
-> Image: template to create a target container (snapshot)
-> Images are defined using a Dockerfile
-
 Workflow:
 
 1.  Write Dockerfile
@@ -33,15 +26,15 @@ Docker images hub: https://hub.docker.com/
 
 Official PHP images: https://hub.docker.com/_/php/
 
-See [`hello-world/`](hello-world/).
+See [`hello/`](hello/).
 
 ```sh
-cd hello-world
+cd hello
 # Build the image. giving it a name (and optionally a tag, name:tag)
-docker build -t hello-world .
+docker build -t hello .
 
 # Run the image, forwarding port 80 from the host to port 80 in the container
-docker run -p 80:80 hello-world
+docker run -p 80:80 hello
 
 # Go to the page, show the container's output.
 open http://localhost/
@@ -51,13 +44,13 @@ open http://localhost/
 
 Two types:
 
-*   Persist / share data between containers
-*   Share data between the host and container (mount local dir as volume)
+* Persist / share data between containers
+* Share data between the host and container (mount local dir as volume)
 
 ```sh
 # Same container, but this time mounting a volume – the src dir to the container’s /var/www/html.
 # Note: needs the full path, not relative
-docker run -p 80:80 -v "$(pwd)/src:/var/www/html" hello-world
+docker run -p 80:80 -v "$(pwd)/src:/var/www/html" hello
 ```
 
 ### Stopping containers
