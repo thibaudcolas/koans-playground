@@ -203,3 +203,7 @@ docker service ps getstartedlab_web
 docker stack rm getstartedlab
 docker swarm leave --force
 ```
+
+### [Part 4, swarms](https://docs.docker.com/get-started/part4/)
+
+TODO, maybe later
