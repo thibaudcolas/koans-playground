@@ -246,4 +246,10 @@ cd composetest
 docker-compose up
 
 open http://0.0.0.0:5000/
+
+# Run one-off commands with docker-compose run
+docker-compose run web env
+
+# Stop everything, remove the containers entirely, with their data.
+docker-compose down --volumes
 ```
