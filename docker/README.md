@@ -239,3 +239,11 @@ Useful features:
 * Variables and moving a composition between environments
 
 ### [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
+
+```sh
+cd composetest
+# Compose pulls a Redis image, builds an image for your code, and starts the services you defined. In this case, the code is statically copied into the image at build time.
+docker-compose up
+
+open http://0.0.0.0:5000/
+```
