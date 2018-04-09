@@ -12,8 +12,6 @@
 > **Container**: running instance of an image
 > **Container**: a runtime instance of an image – what the image becomes in memory when executed (that is, an image with state, or a user process)
 >
-> **Service**: defines how containers behave in production
->
 > **Dockerfile**: defines what goes on in the environment inside your container.
 > Access to resources like networking interfaces and disk drives is virtualized inside this environment, which is isolated from the rest of your system, so you need to map ports to the outside world, and be specific about what files you want to “copy in” to that environment.
 > However, after doing that, you can expect that the build of your app defined in this Dockerfile behaves exactly the same wherever it runs.
@@ -21,6 +19,9 @@
 > **Repository**: a collection of images – sort of like a GitHub repository, except the code is already built.
 >
 > **Registry**: a collection of repositories.
+>
+> **Service**: defines how containers behave in production
+> **Service**: really just “containers in production.” A service only runs one image, but it codifies the way that image runs—what ports it should use, how many replicas of the container should run so the service has the capacity it needs, and so on.
 
 ---
 
@@ -181,3 +182,24 @@ docker run -p 4000:80 thibaudcolas/get-started:part2
 ```
 
 ### [Part 3, services](https://docs.docker.com/get-started/part3/)
+
+> Scaling a service changes the number of container instances running that piece of software, assigning more computing resources to the service in the process.
+
+```sh
+cd getstartedlab
+docker swarm init
+# Swarm initialized: current node () is now a manager.
+
+# Our single service stack is running 5 container instances of our deployed image on one host. Let’s investigate.
+docker stack deploy -c docker-compose.yml getstartedlab
+
+# Get the service ID for the one service in our application:
+docker service ls
+
+#  List the tasks for your service:
+docker service ps getstartedlab_web
+
+# Take down the app and the swarm.
+docker stack rm getstartedlab
+docker swarm leave --force
+```

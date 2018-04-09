@@ -1,0 +1,29 @@
+version: "3"
+services:
+  # a service called web,
+  web:
+    # Pull the image we uploaded in step 2 from the registry.
+    image: thibaudcolas/get-started:part2
+    deploy:
+    # Run 5 instances of that image
+      replicas: 5
+      resources:
+        # limiting each one to use, at most,
+        limits:
+          # 10% of the CPU (across all cores)
+          cpus: "0.1"
+          # and 50MB of RAM.
+          memory: 50M
+      # Immediately restart containers if one fails.
+      restart_policy:
+        condition: on-failure
+    # Map port 80 on the host to web’s port 80.
+    ports:
+      - "80:80"
+    # Instruct web’s containers to share port 80 via a load-balanced network called webnet.
+    # (Internally, the containers themselves publish to web’s port 80 at an ephemeral port.)
+    networks:
+      - webnet
+# Define the webnet network with the default settings (which is a load-balanced overlay network).
+networks:
+  webnet:
