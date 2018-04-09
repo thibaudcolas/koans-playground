@@ -22,6 +22,8 @@
 >
 > **Service**: defines how containers behave in production
 > **Service**: really just “containers in production.” A service only runs one image, but it codifies the way that image runs—what ports it should use, how many replicas of the container should run so the service has the capacity it needs, and so on.
+>
+> **Compose**: a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 
 ---
 
@@ -207,3 +209,33 @@ docker swarm leave --force
 ### [Part 4, swarms](https://docs.docker.com/get-started/part4/)
 
 TODO, maybe later
+
+---
+
+## [Official “Docker Compose”](https://docs.docker.com/compose/)
+
+### Overview of Docker Compose
+
+Three-step process:
+
+1.  Define your app’s environment with a Dockerfile so it can be reproduced anywhere.
+2.  Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
+3.  Run docker-compose up and Compose starts and runs your entire app.
+
+Common commands:
+
+* Start, stop, and rebuild services
+* View the status of running services
+* Stream the log output of running services
+* Run a one-off command on a service
+
+Useful features:
+
+* Multiple isolated environments on a single host
+  * Use a project name to isolate environments from each others (of the same app, of apps running the same services, etc).
+  * By default, project name is basename of project directory.
+* Preserve volume data when containers are created
+* Only recreate containers that have changed
+* Variables and moving a composition between environments
+
+### [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
