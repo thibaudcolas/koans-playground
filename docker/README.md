@@ -11,6 +11,18 @@
 >
 > **Container**: running instance of an image
 > **Container**: a runtime instance of an image – what the image becomes in memory when executed (that is, an image with state, or a user process)
+>
+> **Service**: defines how containers behave in production
+>
+> **Dockerfile**: defines what goes on in the environment inside your container.
+> Access to resources like networking interfaces and disk drives is virtualized inside this environment, which is isolated from the rest of your system, so you need to map ports to the outside world, and be specific about what files you want to “copy in” to that environment.
+> However, after doing that, you can expect that the build of your app defined in this Dockerfile behaves exactly the same wherever it runs.
+>
+> **Repository**: a collection of images – sort of like a GitHub repository, except the code is already built.
+>
+> **Registry**: a collection of repositories.
+
+---
 
 ## [Learn Docker in 12 minutes 🐳](https://www.youtube.com/watch?v=YFl2mCHdv24)
 
@@ -108,3 +120,64 @@ CONTAINER ID        IMAGE                           COMMAND                  CRE
 # Stop detached containers.
 docker-compose stop
 ```
+
+## [Official “Get started with Docker”](https://docs.docker.com/get-started)
+
+### Part 1, orientation
+
+```sh
+# Execute "hello-world" Docker image
+docker run hello-world
+# To generate this message, Docker took the following steps:
+#  1. The Docker client contacted the Docker daemon.
+#  2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+#     (amd64)
+#  3. The Docker daemon created a new container from that image which runs the
+#     executable that produces the output you are currently reading.
+#  4. The Docker daemon streamed that output to the Docker client, which sent it
+#     to your terminal.
+
+# List Docker containers (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+```
+
+### [Part 2, containers](https://docs.docker.com/get-started/part2/)
+
+```sh
+cd friendlyhello
+# Build the image, giving it a name
+docker build -t friendlyhello .
+
+# Local docker image registry
+docker image ls
+# REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+# friendlyhello                   latest              19e1cfe21ac5        6 seconds ago       150MB
+
+# Run the app, mapping your machine’s port 4000 to the container’s published port 80 using -p:
+docker run -p 4000:80 friendlyhello
+
+# Run the app in the background (detached mode):
+docker run -d -p 4000:80 friendlyhello
+
+# Stop the container (using the right id from docker container ls)
+docker container stop 1fa4ab2cf395
+```
+
+#### Share your image
+
+```sh
+# Log in to the Docker public registry on your local machine.
+docker login
+# Associates a local image with a repository on a registry.
+# Associates the friendlyhello image with the thibaudcolas/get-started repository, currently as tag part2
+docker tag friendlyhello thibaudcolas/get-started:part2
+# Upload the tagged image to the repository.
+docker push thibaudcolas/get-started:part2
+
+# Now runnable from anywhere 🌈
+docker run -p 4000:80 thibaudcolas/get-started:part2
+```
+
+### [Part 3, services](https://docs.docker.com/get-started/part3/)
