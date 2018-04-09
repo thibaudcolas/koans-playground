@@ -1,5 +1,17 @@
 # Docker Playground
 
+## Vocabulary
+
+> **Containerization**: the use of Linux containers to deploy applications.
+> [Containers are not new, but their use for easily deploying applications is.](https://docs.docker.com/get-started/)
+>
+> **Image**: an executable package that includes everything needed to run an application – the code, a runtime, libraries, environment variables, and configuration files.
+> **Image**: template to create a target container (snapshot)
+> Images are defined using a Dockerfile
+>
+> **Container**: running instance of an image
+> **Container**: a runtime instance of an image – what the image becomes in memory when executed (that is, an image with state, or a user process)
+
 ## [Learn Docker in 12 minutes 🐳](https://www.youtube.com/watch?v=YFl2mCHdv24)
 
 > https://www.youtube.com/watch?v=YFl2mCHdv24
