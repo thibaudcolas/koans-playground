@@ -253,3 +253,15 @@ docker-compose run web env
 # Stop everything, remove the containers entirely, with their data.
 docker-compose down --volumes
 ```
+
+## [Quickstart: Compose and Django](https://docs.docker.com/compose/django/)
+
+> [Docker Compose file reference](https://docs.docker.com/compose/compose-file/)
+
+```sh
+# Create the Django project, in Docker.
+docker-compose run web django-admin.py startproject djangocompose .
+
+# Start all the things!
+docker-compose up
+```
